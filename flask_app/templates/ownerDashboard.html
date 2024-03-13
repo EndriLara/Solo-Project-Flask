@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rent Car</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<style>
+    .table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    width: 100%;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 15px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+  }
+
+  .table th {
+    background-color: #32e243;
+  }
+
+  .table tbody tr:nth-child(even) {
+    background-color: #387430;
+  }
+
+  .table tbody tr:hover {
+    background-color: #eb0b43;
+  }
+
+  .table a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  .table a:hover {
+    color: #0056b3;
+  }
+  body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #01eb20, #0b0b0c);
+  }
+
+  nav {
+    background-color: #333;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav a {
+    color: #fff;
+    text-transform: uppercase;
+    margin-left: 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+
+  nav a:hover {
+    color: #ccc;
+  }
+
+  nav .logo {
+    display: flex;
+    align-items: center;
+  }
+
+  nav .loader {
+    margin-left: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .welcome-message {
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .welcome-message h3 {
+    color: #333;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-message p {
+    color: #666;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+  }
+
+  table th,
+  table td {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+
+  table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+  }
+
+  table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  table tr:hover {
+    background-color: #ddd;
+  }
+
+  table td a {
+    color: #337ab7;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  table td a:hover {
+    color: #23527c;
+  }
+
+  footer {
+    background-color: #000307;
+    padding: 1rem;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  .social-icons li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  .social-icons li a {
+    color: #fffbfb;
+    text-decoration: none;
+    font-size: 20px;
+  }
+
+  .copyright-text {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  img {
+    width: 250px;
+    height: fit-content;
+    margin-top: 50px;
+  }
+
+</style>
+
+<body>
+  <nav class="d-flex justify-content-around bg-dark text-white align-items-center">
+    <h1 class="d-flex justify-content-evenly align-items-center">Rent a car
+      <section class="loader">
+        <div>
+          <div>
+            <span class="one h6"></span>
+            <span class="two h3"></span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <span class="one h1"></span>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            <span class="two h2"></span>
+          </div>
+        </div>
+        <div>
+          <div>
+            <span class="one h4"></span>
+          </div>
+        </div>
+      </section>
+    </h1>
+    <a class="text-decoration-none text-white" href="/owner/dashboard">My Cars</a>
+    <a class="text-decoration-none text-white" href="/owner/cars/new">Add Car</a>
+    <a class="text-decoration-none text-white" href="/logout/owner">Logout</a>
+  </nav>
+  <h5>Welcome {{loggedOwner.first_name}} {{loggedOwner.last_name}}! You are in the right place to find the right car
+    for your adventure.<br>
+    Click the Add Car button to add the car you want to rent out.</h5>
+  <p>My cars:</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Car model</th>
+        <th scope="col">Address</th>
+        <th scope="col">Rent</th>
+        <th scope="col">More</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for car in cars %}
+      <tr>
+        <td>{{car.type}}</td>
+        <td>{{car.address}}</td>
+        <td>{{car.rent}}</td>
+        <td>
+          <a href="/owner/cars/{{car.id}}">Details</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="social-icons">
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Behance</a></li>
+          <li><a href="#">Linkedin</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-12">
+        <div class="copyright-text">
+          <p>
+            Copyright © 2024 Coding Dojo Korca
+            | Powered by: <a href="https://www.codingdojo.com/">codingdojo.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</html>
